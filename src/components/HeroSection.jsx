@@ -208,15 +208,7 @@ const HeroSection = () => {
                     <div className="card-wade scroll-up d1">
                         <div className="wade-outer">
                             <div className="wade-chip">
-                                <div className="wade-av">
-                                    <div className="wade-av-bg"></div>
-                                    <div className="wade-av-person">
-                                        <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
-                                            <ellipse cx="21" cy="14" rx="8" ry="9" fill="rgba(0,0,0,0.55)" />
-                                            <path d="M3 42C3 30 10 24 21 24C32 24 39 30 39 42" fill="rgba(0,0,0,0.55)" />
-                                        </svg>
-                                    </div>
-                                </div>
+                                <img src="/avatar1.png" alt="Wade" style={{ width: '30%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} />
                                 <div>
                                     <p className="wade-name">wade warren</p>
                                     <p className="wade-role">Marketing coordinator</p>
@@ -264,9 +256,9 @@ const HeroSection = () => {
                         <div className="dev-outer">
                             <p className="dev-title">Dev team</p>
                             <div className="avs-row">
-                                <div className="av" style={{ background: "#e8a090", color: "#7a3020" }}>A</div>
-                                <div className="av" style={{ background: "#90c8a0", color: "#205a30" }}>B</div>
-                                <div className="av" style={{ background: "#90a8d0", color: "#20386a" }}>C</div>
+                                <div className="av"><img src="/avatar1.png" alt="A" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
+                                <div className="av"><img src="/avatar2.png" alt="B" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
+                                <div className="av"><img src="/avatar3.png" alt="C" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
                                 <div className="av-plus">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                                         <path d="M3.75 12H20.25" stroke="white" strokeWidth="2" strokeLinecap="round" />
