@@ -21,6 +21,71 @@ const HeroSection = () => {
 
         document.querySelectorAll(".scroll-up").forEach((el) => scrollObserver.observe(el));
 
+        // Counter for Dev Team - 87%
+        const devObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const effNum = entry.target.querySelector(".eff-n");
+                    if (effNum && !effNum.classList.contains("counted")) {
+                        effNum.classList.add("counted");
+                        let current = 0;
+                        effNum.textContent = "0%";
+                        const timer = setInterval(() => {
+                            current += 87 / (1500 / 16);
+                            if (current >= 87) { current = 87; clearInterval(timer); }
+                            effNum.textContent = Math.floor(current) + "%";
+                        }, 16);
+                    }
+                    devObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        const devCard = document.querySelector(".card-dev");
+        if (devCard) devObserver.observe(devCard);
+
+        // Counter animation for dashboard
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    // Animate 8458
+                    const mainNum = entry.target.querySelector(".dash-main-num");
+                    const subNum = entry.target.querySelector(".dash-sub-num");
+                    if (mainNum && !mainNum.classList.contains("counted")) {
+                        mainNum.classList.add("counted");
+                        let start = 0;
+                        const end = 8458;
+                        const duration = 1500;
+                        const step = end / (duration / 16);
+                        const timer = setInterval(() => {
+                            start += step;
+                            if (start >= end) { start = end; clearInterval(timer); }
+                            mainNum.textContent = Math.floor(start).toLocaleString();
+                        }, 16);
+                    }
+                    if (subNum && !subNum.classList.contains("counted")) {
+                        subNum.classList.add("counted");
+                        let s = 0;
+                        const timer2 = setInterval(() => {
+                            s += 0.05;
+                            if (s >= 1.124) { s = 1.124; clearInterval(timer2); }
+                            subNum.textContent = s.toFixed(3);
+                        }, 16);
+                    }
+                    // Animate bars
+                    const bars = entry.target.querySelectorAll(".dbar");
+                    bars.forEach((bar, i) => {
+                        setTimeout(() => {
+                            bar.style.transform = "scaleY(1)";
+                        }, 500 + i * 150);
+                    });
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const dashCard = document.querySelector(".card-dash");
+        if (dashCard) counterObserver.observe(dashCard);
+
         document.querySelectorAll(".hero-btn").forEach((btn) => {
             const icon = btn.querySelector(".b-icon");
             const text = btn.querySelector(".b-text");
@@ -38,7 +103,7 @@ const HeroSection = () => {
             });
         });
 
-        return () => scrollObserver.disconnect();
+        return () => { scrollObserver.disconnect(); counterObserver.disconnect(); };
     }, []);
 
     return (
@@ -82,22 +147,22 @@ const HeroSection = () => {
         .card-dash{position:absolute;top:64%;left:1%;display:none;z-index:10}
         @media(min-width:768px){.card-dash{display:block}}
         .card-dash.in-view{animation:dashFloat 4s ease-in-out infinite}
-        .dash-outer{background:white;border-radius:20px;padding:18px 18px 14px;width:236px;box-shadow:0 4px 20px rgba(0,0,0,0.07)}
-        .dash-tabs{display:flex;gap:5px;margin-bottom:12px}
-        .dtab{font-size:11px;padding:4px 10px;border-radius:6px;color:rgba(13,13,18,0.45);cursor:pointer}
+        .dash-outer{background:white;border-radius:20px;padding:16px 16px 12px;width:240px;box-shadow:0 4px 20px rgba(0,0,0,0.07)}
+        .dash-tabs{display:flex;gap:4px;margin-bottom:14px}
+        .dtab{font-size:11px;padding:5px 10px;border-radius:6px;color:rgba(13,13,18,0.45);cursor:pointer;font-family:'Inter Tight',sans-serif}
         .dtab.on{background:#191d2a;color:white}
-        .dash-num{font-family:'Sora',sans-serif;font-size:26px;font-weight:400;color:#0d0d12;letter-spacing:-1px;display:flex;align-items:baseline;gap:4px}
-        .dash-num span{font-size:14px;color:#8d59ff;font-weight:500}
-        .dash-desc{font-size:10px;color:rgba(13,13,18,0.4);margin-top:3px;line-height:1.4}
-        .dash-chart{display:flex;align-items:flex-end;gap:4px;margin-top:12px;height:52px}
-        .dbar{border-radius:3px 3px 0 0;flex:1;background:#e4eaee;transform:scaleY(0);transform-origin:bottom;transition:transform 0.8s cubic-bezier(0.4,0,0.2,1)}
+        .dash-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+        .dash-left{}
+        .dash-num{display:flex;align-items:baseline;gap:3px;margin-bottom:6px}
+        .dash-main-num{font-family:'Sora',sans-serif;font-size:24px;font-weight:400;color:#0d0d12;letter-spacing:-1px}
+        .dash-sub-num{font-size:13px;color:#8d59ff;font-weight:500;font-family:'Inter Tight',sans-serif}
+        .dash-desc{font-size:9px;color:rgba(13,13,18,0.4);line-height:1.4;max-width:110px}
+        .dash-right{display:flex;flex-direction:column;align-items:flex-end}
+        .dash-chart{display:flex;align-items:flex-end;gap:3px;height:48px;margin-bottom:4px}
+        .dbar{border-radius:3px 3px 0 0;width:14px;background:#e4eaee;transform:scaleY(0);transform-origin:bottom;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1)}
         .dbar.p{background:#8d59ff}
-        .card-dash.in-view .dbar:nth-child(1){transform:scaleY(1);transition-delay:0.5s}
-        .card-dash.in-view .dbar:nth-child(2){transform:scaleY(1);transition-delay:0.65s}
-        .card-dash.in-view .dbar:nth-child(3){transform:scaleY(1);transition-delay:0.8s}
-        .card-dash.in-view .dbar:nth-child(4){transform:scaleY(1);transition-delay:0.95s}
-        .dash-months{display:flex;margin-top:4px}
-        .dmo{font-size:10px;color:rgba(13,13,18,0.4);flex:1;text-align:center}
+        .dash-months{display:flex;gap:3px}
+        .dmo{font-size:9px;color:rgba(13,13,18,0.4);width:14px;text-align:center}
         .card-dev{position:absolute;top:38%;right:1%;display:none;z-index:10}
         @media(min-width:768px){.card-dev{display:inline-block}}
         .card-dev.in-view{animation:devFloat 3.8s ease-in-out infinite}
@@ -169,19 +234,28 @@ const HeroSection = () => {
                                 <span className="dtab">Sales</span>
                                 <span className="dtab">Order</span>
                             </div>
-                            <div className="dash-num">8,458 <span>1.124</span></div>
-                            <p className="dash-desc">Your sales increased this month by around 58%</p>
-                            <div className="dash-chart">
-                                <div className="dbar" style={{ height: "32px" }}></div>
-                                <div className="dbar p" style={{ height: "48px" }}></div>
-                                <div className="dbar" style={{ height: "26px" }}></div>
-                                <div className="dbar p" style={{ height: "42px" }}></div>
-                            </div>
-                            <div className="dash-months">
-                                <span className="dmo">Apr</span>
-                                <span className="dmo">May</span>
-                                <span className="dmo">Jun</span>
-                                <span className="dmo">Jul</span>
+                            <div className="dash-bottom">
+                                <div className="dash-left">
+                                    <div className="dash-num">
+                                        <span className="dash-main-num">0</span>
+                                        <span className="dash-sub-num">0.000</span>
+                                    </div>
+                                    <p className="dash-desc">Your sales increased this month by around 58%</p>
+                                </div>
+                                <div className="dash-right">
+                                    <div className="dash-chart">
+                                        <div className="dbar" style={{ height: "28px" }}></div>
+                                        <div className="dbar p" style={{ height: "42px" }}></div>
+                                        <div className="dbar" style={{ height: "22px" }}></div>
+                                        <div className="dbar p" style={{ height: "36px" }}></div>
+                                    </div>
+                                    <div className="dash-months">
+                                        <span className="dmo">Apr</span>
+                                        <span className="dmo">May</span>
+                                        <span className="dmo">Jun</span>
+                                        <span className="dmo">Jul</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
